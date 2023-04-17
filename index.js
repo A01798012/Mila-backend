@@ -1,9 +1,6 @@
 const express = require("express");
 const app = express();
 app.use(express.json());
-// TUTOR
-//insert new tutor
-
 
 const userRouter = require('./routes/users');
 const tutorRouter = require('./routes/tutors');

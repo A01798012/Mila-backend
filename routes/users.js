@@ -34,7 +34,7 @@ router.post('/', async function(req, res){
     let result = await request.execute('PROC_Insertar_Usuario');
     res.send(result);
 });
-//insert comment
+//TODO:insert comment
 router.post('/comments', (req, res)=>{
     const comment = {
         comentario: req.body.comentario,
@@ -42,39 +42,68 @@ router.post('/comments', (req, res)=>{
     };
     res.send(comment);
 });
+//TODO: corregir stored procedure en sql
 //validate password
-router.post('/passwords', (req, res)=>{
-    const password = {
+router.post('/passwords', async function (req, res){
+    const user = {
+        gamertag: req.body.gamertag,
         password: req.body.password
     };
-    res.send(password);
+    let pool = await sql.connect(sqlConfig);
+    let request = pool.request();
+    request.input('Gamertag', user.gamertag);
+    request.input('Password', user.password);
+    request.input('Succes', 0);
+    let result = await request.execute('PROC_Login_Usuario');
+    res.send(result);
 });
 
-//alter calificacion
-router.put('/scores', (req, res)=>{
+// TODO: acabar esto
+//Alter scores
+router.put('/scores', async function(req, res){
     const scores = {
+        gamertag: req.body.gamertag,
         scores: req.body.scores
     };
+    let pool = await sql.connect(sqlConfig);
+    let request = pool.request();
+
+    let result = await request.execute('')
     res.send(scores);
 });
 //alter gamertag
-router.put('/gamertags', (req, res)=>{
+router.put('/gamertags', async function(req, res){
     const gamertag = {
+        prevGamertag: req.body.prevGamertag,
         gamertag: req.body.gamertag
     }
-    res.send(gamertag);
+    const pool = await sql.connect(sqlConfig);
+    const request = pool.request();
+    request.input('PrevGametag', gamertag.prevGamertag);
+    request.input('Gametag', gamertag.gamertag);
+    let result = await request.execute('PROC_Actualizar_Gametag');
+    res.send(result);
 });
+//TODO: corregir el stored procedure en sql
 //alter password
-router.put('/passwords', (req, res)=>{
-    const password = {
-        user: req.body.user,
+router.put('/passwords', async function(req, res){
+    const user = {
+        gamertag: req.body.gamertag,
         previousPassword: req.body.previousPassword,
-        password: req.body.password
+        newPassword: req.body.newPassword
     };
-    res.send(password);
+    let pool = await sql.connect(sqlConfig);
+    let request = pool.request();
+    request.input('GamerTag', user.gamertag);
+    request.input('Password', user.previousPassword);
+    request.input('nuevaPassword', user.newPassword);
+    request.input('Succes', 1);
+
+    let result = await request.execute('PROC_CambiarPass_Usuario');
+    res.send(result);
 });
 //Partida
-//alter score
+//TODO:alter score
 router.put('/scores', (req, res)=>{
     const scores = {
         user: req.body.user,
@@ -82,7 +111,7 @@ router.put('/scores', (req, res)=>{
     };
     res.send(scores);
 });
-//alter actual progresss
+//TODO:alter actual progresss
 router.put('/progress', (req, res)=>{
     const progress = {
         user: req.body.user,
