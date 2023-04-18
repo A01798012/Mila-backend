@@ -54,18 +54,28 @@ router.post('/comments', (req, res)=>{
 });
 //TODO: corregir stored procedure en sql
 //validate password
-router.post('/passwords', async function (req, res){
+router.post('/login', async function (req, res){
     const user = {
         gamertag: req.body.gamertag,
         password: req.body.password
     };
-    let pool = await sql.connect(sqlConfig);
-    let request = pool.request();
-    request.input('Gamertag', user.gamertag);
-    request.input('Password', user.password);
-    request.input('Succes', 0);
-    let result = await request.execute('PROC_Login_Usuario');
-    res.send(result);
+    try{
+        let pool = await sql.connect(sqlConfig);
+        let request = pool.request();
+        request.input('Gamertag', user.gamertag);
+        request.input('Password', user.password);
+        request.input('Succes', 0);
+        let result = await request.execute('PROC_Login_Usuario');
+        res.send(result);
+    }catch(err){
+        if(err instanceof sql.RequestError){
+            console.log('Request Error', err.message);
+            res.status(500).json({error: "No se puede iniciar sesion en este momento. Intente más tard"});
+        }else{
+            console.log('Request Error', err.message);
+            res.status(500).json({error: "No se puede iniciar sesion en este momento. Intente más tard"});
+        }
+    }
 });
 
 // TODO: acabar esto
@@ -112,15 +122,26 @@ router.put('/passwords', async function(req, res){
         previousPassword: req.body.previousPassword,
         newPassword: req.body.newPassword
     };
-    let pool = await sql.connect(sqlConfig);
-    let request = pool.request();
-    request.input('GamerTag', user.gamertag);
-    request.input('Password', user.previousPassword);
-    request.input('nuevaPassword', user.newPassword);
-    request.input('Succes', 1);
+    try{
+        let pool = await sql.connect(sqlConfig);
+        let request = pool.request();
+        request.input('GamerTag', user.gamertag);
+        request.input('Password', user.previousPassword);
+        request.input('nuevaPassword', user.newPassword);
+        request.input('Succes', 1);
 
-    let result = await request.execute('PROC_CambiarPass_Usuario');
-    res.send(result);
+        let result = await request.execute('PROC_CambiarPass_Usuario');
+        res.send(result);
+    }catch(err){
+        if(err instanceof sql.RequestError){
+            console.log('Request Error', err.message);
+            res.status(500).json({error: "No se puede cambiar la constraseña en este momento."});
+        }else{
+            console.log('Request Error', err.message);
+            res.status(500).json({error: "No se puede cambiar la contraseña en este momento. Intente más tard"});
+
+        }
+    }
 });
 //Partida
 //TODO:

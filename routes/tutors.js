@@ -53,4 +53,29 @@ router.put('/passwords', (req, res)=>{
     res.send(password.password);
 });
 
+//TODO: tutor login
+//validation of login
+router.post('/login', async function (req, res){
+    const tutor = {
+        email: req.body.email,
+        password: req.body.password
+    }
+    try{
+        let pool = await sql.connect(sqlConfig);
+        let request = pool.request();
+        request.input('Email', tutor.email );
+        request.input('Password', tutor.password);
+        let result =  await request.execute(''); //TODO:
+        res.send(result);
+    }catch(err){
+        if(err instanceof sql.RequestError){
+            console.log('Request Error', err.message);
+            res.status(500).json({error: "No se puede iniciar sesion en este momento. Intente más tard"});
+        }else{
+            console.log('Request Error', err.message);
+            res.status(500).json({error: "No se puede iniciar sesion en este momento. Intente más tard"});
+
+        }
+    }
+});
 module.exports = router;
