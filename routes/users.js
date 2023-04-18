@@ -23,16 +23,26 @@ router.post('/', async function(req, res){
         fecha: req.body.fecha,
         emailTutor: req.body.emailTutor
     };
-    let pool = await sql.connect(sqlConfig);
-    let request = pool.request();
-    request.input('NombreUsuario', user.nombreUsuario);
-    request.input('PrimerApellido', user.primerApellido);
-    request.input('GamerTag', user.gamertag);
-    request.input('Password', user.password);
-    request.input('Fecha', user.fecha);
-    request.input('EmailTutor', user.emailTutor);
-    let result = await request.execute('PROC_Insertar_Usuario');
-    res.send(result);
+    try{
+        let pool = await sql.connect(sqlConfig);
+        let request = pool.request();
+        request.input('NombreUsuario', user.nombreUsuario);
+        request.input('PrimerApellido', user.primerApellido);
+        request.input('GamerTag', user.gamertag);
+        request.input('Password', user.password);
+        request.input('Fecha', user.fecha);
+        request.input('EmailTutor', user.emailTutor);
+        let result = await request.execute('PROC_Insertar_Usuario');
+        res.status(201).send(result);
+    }catch(err){
+        if(err instanceof sql.RequestError){
+            console.log('Request Error:', err.message);
+            res.status(500).json({error: "Usuario ya registrado"});
+        }else{
+            console.log('Unknown error', err.message);
+            res.status(500).json({error: "No se puede registrar al usuario en estos momentos"});
+        }
+    }
 });
 //TODO:insert comment
 router.post('/comments', (req, res)=>{
@@ -77,12 +87,22 @@ router.put('/gamertags', async function(req, res){
         prevGamertag: req.body.prevGamertag,
         gamertag: req.body.gamertag
     }
-    const pool = await sql.connect(sqlConfig);
-    const request = pool.request();
-    request.input('PrevGametag', gamertag.prevGamertag);
-    request.input('Gametag', gamertag.gamertag);
-    let result = await request.execute('PROC_Actualizar_Gametag');
-    res.send(result);
+    try{
+        const pool = await sql.connect(sqlConfig);
+        const request = pool.request();
+        request.input('PrevGametag', gamertag.prevGamertag);
+        request.input('Gametag', gamertag.gamertag);
+        let result = await request.execute('PROC_Actualizar_Gametag');
+        res.send(result);
+    }catch(err){
+        if(err instanceof sql.RequestError){
+            console.log('Request Error', err.message);
+            res.status(500).json({error: "Gamertag no encontrado"});
+        }else{
+            console.log('Unknown error', err.message);
+            res.status(500).json({error: "No se puede cambiar el gamertag en estos momentos"});
+        }
+    }
 });
 //TODO: corregir el stored procedure en sql
 //alter password
@@ -103,7 +123,8 @@ router.put('/passwords', async function(req, res){
     res.send(result);
 });
 //Partida
-//TODO:alter score
+//TODO:
+//alter score
 router.put('/scores', (req, res)=>{
     const scores = {
         user: req.body.user,
@@ -111,7 +132,8 @@ router.put('/scores', (req, res)=>{
     };
     res.send(scores);
 });
-//TODO:alter actual progresss
+//TODO:
+//alter actual progresss
 router.put('/progress', (req, res)=>{
     const progress = {
         user: req.body.user,
