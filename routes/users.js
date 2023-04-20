@@ -78,7 +78,7 @@ router.post('/login', async function (req, res){
     }
 });
 
-// TODO: acabar esto
+// TODO: acabar esto pero ahora va a ser post pq por cada partida va a ser una insercion a la bd
 //Alter scores
 router.put('/scores', async function(req, res){
     const scores = {
@@ -144,23 +144,18 @@ router.put('/passwords', async function(req, res){
     }
 });
 //Partida
-//TODO:
-//alter score
-router.put('/scores', (req, res)=>{
-    const scores = {
-        user: req.body.user,
-        score: req.body.score
-    };
-    res.send(scores);
-});
-//TODO:
-//alter actual progresss
-router.put('/progress', (req, res)=>{
-    const progress = {
-        user: req.body.user,
-        progress: req.body.progress
-    };
-    res.send(progress);
-});
 
+
+//TODO: retrieve all scores from all users
+router.get('/scores', async function(req, res){
+
+});
+//TODO: retrieve score from certain user
+router.get('/scores/:gamertag', async function(req, res){
+
+});
+//TODO: retrive progress from all users
+router.get('/progress', async function(req, res){
+
+});
 module.exports = router;
