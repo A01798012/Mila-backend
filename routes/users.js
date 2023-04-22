@@ -1,6 +1,13 @@
 const express = require("express");
 const sql = require("mssql");
 const router = express.Router();
+const cors = require('cors');
+const corsOptions ={
+    origin:'http://localhost:3000', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
+router.use(cors(corsOptions));
 const sqlConfig = {
     user: 'sa',
     password: process.env.db_pswd,
@@ -64,7 +71,6 @@ router.post('/login', async function (req, res){
         let request = pool.request();
         request.input('Gamertag', user.gamertag);
         request.input('Password', user.password);
-        request.input('Succes', 0);
         let result = await request.execute('PROC_Login_Usuario');
         res.send(result);
     }catch(err){
