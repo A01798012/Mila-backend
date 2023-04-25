@@ -1,9 +1,9 @@
 
 function saveDataUser() {
   console.log("Todo pinta bien...");
-  saveDataTutor();
   let fecha = `${year.value}-${mes.value}-${dia.value}`;
   console.log(fecha);
+  console.log(codTel.value);
     const payLoad = JSON.stringify({
       nombreUsuario: nombreUsuario.value,
       primerApellido: apellidoUs.value,
@@ -15,9 +15,9 @@ function saveDataUser() {
     
     const xhr = new XMLHttpRequest();
     xhr.onload = () => {
-      result.innerText = xhr.responseText;
-      main.style.display = 'none';
-      endMessage.style.display = 'block';
+      //result.innerText = xhr.responseText;
+      //main.style.display = 'none';
+      //endMessage.style.display = 'block';
     };
     xhr.open('POST', 'http://localhost:3000/api/users');
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -35,11 +35,13 @@ function saveDataTutor() {
   });
   const xhr = new XMLHttpRequest();
   xhr.onload = () => {
-    result.innerText = xhr.responseText;
-    main.style.display = 'none';
-    endMessage.style.display = 'block';
+    saveDataUser();
+    //result.innerText = xhr.responseText;
+   // main.style.display = 'none';
+   // endMessage.style.display = 'block';
   };
   xhr.open('POST', 'http://localhost:3000/api/tutors');
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.send(payLoad);
+  //callback();
 }

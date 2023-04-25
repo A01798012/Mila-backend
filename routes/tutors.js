@@ -1,13 +1,6 @@
 const express = require("express");
 const sql = require("mssql");
 const router = express.Router();
-const cors = require('cors');
-const corsOptions ={
-    origin:'http://localhost:3000', 
-    credentials:true,            //access-control-allow-credentials:true
-    optionSuccessStatus:200
-}
-router.use(cors(corsOptions));
 const sqlConfig = {
     user: 'sa',
     password: process.env.db_pswd,
@@ -42,6 +35,7 @@ router.post('/', async function (req, res) {
         request.input('CodTel', sql.Int , tutor.codTel);
         let result = await request.execute('PROC_Insertar_Tutor');
         res.status(201).send(result);
+        console.log('Success')
     }catch(err){
         if(err instanceof sql.RequestError){
             console.log('Request Error:', err.message);

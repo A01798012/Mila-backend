@@ -1,13 +1,7 @@
 const express = require("express");
 const sql = require("mssql");
+//const { use } = require("./users");
 const router = express.Router();
-const cors = require('cors');
-const corsOptions ={
-    origin:'http://localhost:3000', 
-    credentials:true,            //access-control-allow-credentials:true
-    optionSuccessStatus:200
-}
-router.use(cors(corsOptions));
 const sqlConfig = {
     user: 'sa',
     password: process.env.db_pswd,
@@ -41,6 +35,7 @@ router.post('/', async function(req, res){
         request.input('EmailTutor', user.emailTutor);
         let result = await request.execute('PROC_Insertar_Usuario');
         res.status(201).send(result);
+        console.log('Success')
     }catch(err){
         if(err instanceof sql.RequestError){
             console.log('Request Error:', err.message);
@@ -52,12 +47,22 @@ router.post('/', async function(req, res){
     }
 });
 //TODO:insert comment
-router.post('/comments', (req, res)=>{
+router.post('/comments', async function (req, res){
     const comment = {
         comentario: req.body.comentario,
-        idUsuario: req.body.idUsuario //TODO ???
+        gamertag: req.body.gamertag//TODO ???
     };
-    res.send(comment);
+    try{
+        let pool = await sql.connect(sqlConfig);
+        let request = pool.request();
+        request.input('GamerTag', comment.gamertag);
+        request.input('Comentario', comment.comentario);
+        let result = await request.execute('PROC_Insertar_Comentario');
+        res.status(201).send(result);
+    }catch(err){
+        console.log('Error', err.message);
+        res.status(500).json({error: "No se pueden insertar comentarios por en estos momentos"});
+    }
 });
 //TODO: corregir stored procedure en sql
 //validate password
@@ -72,7 +77,8 @@ router.post('/login', async function (req, res){
         request.input('Gamertag', user.gamertag);
         request.input('Password', user.password);
         let result = await request.execute('PROC_Login_Usuario');
-        res.send(result);
+        console.log(result.returnValue);
+        res.status(200).json({valid: result.returnValue});
     }catch(err){
         if(err instanceof sql.RequestError){
             console.log('Request Error', err.message);
@@ -86,16 +92,26 @@ router.post('/login', async function (req, res){
 
 // TODO: acabar esto pero ahora va a ser post pq por cada partida va a ser una insercion a la bd
 //Alter scores
-router.put('/scores', async function(req, res){
-    const scores = {
-        gamertag: req.body.gamertag,
-        scores: req.body.scores
-    };
-    let pool = await sql.connect(sqlConfig);
-    let request = pool.request();
 
-    let result = await request.execute('')
-    res.send(scores);
+router.post('/scores', async function(req, res){
+    const user = {
+        gamertag: req.body.gamertag,
+        score: req.body.score,
+        progress: req.body.progress
+    };
+    try{
+        let pool = await sql.connect(sqlConfig);
+        let request = pool.request();
+        request.input('GamerTag', user.gamertag);
+        request.input('Puntaje', user.score);
+        request.input('Progreso', user.progress);
+        let result = await request.execute('PROC_Insertar_Puntaje');
+        res.status(201).send(result);
+    }catch(err){
+        console.log(err.message);
+        res.status(500).send(err.message);
+    }
+
 });
 //alter gamertag
 router.put('/gamertags', async function(req, res){
