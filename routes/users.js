@@ -165,25 +165,45 @@ router.put('/passwords', async function(req, res){
 });
 //Partida
 
-
 //TODO: retrieve all scores from all users
 router.get('/scores', async function(req, res){
     try{
         let pool = await sql.connect(sqlConfig);
         let request = pool.request();
         let result = await request.execute('PROC_Obtener_Scores')
-        res.status(200).json({result: "hola"});
+        res.status(200).send(result.recordset);
+        console.log(result.recordset);
     }catch(err){
-        res.status(500).json({error: "error"});
+        res.status(500).json(err.message);
+        console.log('error');
+
     }
 });
 //TODO: retrieve score from certain user
 router.get('/scores/:gamertag', async function(req, res){
-
+    try{
+        let pool = await sql.connect(sqlConfig);
+        let request = pool.request();
+        request.input('Gamertag', req.params.gamertag);
+        let result = await request.execute('PROC_Obtener_Scores_Usuario')
+        res.status(200).send(result.recordset);
+        console.log(result.recordset);
+    }catch(err){
+        res.status(500).json({error: "error"});
+    }
 });
 //TODO: retrive progress from all users
 router.get('/progress', async function(req, res){
-
+    try{
+        let pool = await sql.connect(sqlConfig);
+        let request = pool.request();
+        let result = await request.execute('PROC_Consultar_Progreso_Global');
+        res.status(200).send(result.recordset);
+        console.log(result.recordset);
+    }catch(err){
+        res.status(500).json({error:"error"});
+    }
 });
 module.exports = router;
+
 
