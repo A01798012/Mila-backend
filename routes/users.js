@@ -97,14 +97,12 @@ router.post('/scores', async function(req, res){
     const user = {
         gamertag: req.body.gamertag,
         score: req.body.score,
-        progress: req.body.progress
     };
     try{
         let pool = await sql.connect(sqlConfig);
         let request = pool.request();
         request.input('GamerTag', user.gamertag);
         request.input('Puntaje', user.score);
-        request.input('Progreso', user.progress);
         let result = await request.execute('PROC_Insertar_Puntaje');
         res.status(201).send(result);
     }catch(err){
@@ -170,7 +168,14 @@ router.put('/passwords', async function(req, res){
 
 //TODO: retrieve all scores from all users
 router.get('/scores', async function(req, res){
-
+    try{
+        let pool = await sql.connect(sqlConfig);
+        let request = pool.request();
+        let result = await request.execute('PROC_Obtener_Scores')
+        res.status(200).json({result: "hola"});
+    }catch(err){
+        res.status(500).json({error: "error"});
+    }
 });
 //TODO: retrieve score from certain user
 router.get('/scores/:gamertag', async function(req, res){
@@ -181,3 +186,4 @@ router.get('/progress', async function(req, res){
 
 });
 module.exports = router;
+

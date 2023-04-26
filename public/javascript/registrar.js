@@ -19,7 +19,7 @@ function saveDataUser() {
       //main.style.display = 'none';
       //endMessage.style.display = 'block';
     };
-    xhr.open('POST', 'http://localhost:3000/api/users');
+    xhr.open('POST', 'http://54.147.131.31:8080/api/users');
     xhr.setRequestHeader('Content-Type', 'application/json');
     xhr.send(payLoad);
 }
@@ -40,7 +40,7 @@ function saveDataTutor() {
    // main.style.display = 'none';
    // endMessage.style.display = 'block';
   };
-  xhr.open('POST', 'http://localhost:3000/api/tutors');
+  xhr.open('POST', 'http://54.147.131.31:8080/api/tutors');
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.send(payLoad);
   //callback();
