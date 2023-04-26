@@ -3,7 +3,7 @@ const sql = require("mssql");
 const router = express.Router();
 const sqlConfig = {
     user: 'sa',
-    password: process.env.db_pswd,
+    password: process.env.MSSQL_PASSWORD,
     server: 'localhost',
     database: 'JuegoCrackTheCode',
     port: 1433,
