@@ -7,8 +7,10 @@ app.use(cors());
 
 const userRouter = require('./routes/users');
 const tutorRouter = require('./routes/tutors');
+const leaderbordRouter = require('./routes/leaderboard');
 app.use('/api/users', userRouter);
 app.use('/api/tutors', tutorRouter);
+app.use('/api/leaderboard', leaderbordRouter);
 
 
 const port = 8080;
