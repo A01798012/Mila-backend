@@ -14,26 +14,30 @@ const sqlConfig = {
     }
 };
 
-router.get('/:page', async function(req, res){
-    try{
-        let pool = await sql.connect(sqlConfig);
-        let request = pool.request();
-        request.input('PageNumber', req.params.page);
-        let result = await request.execute('PROC_Leaderboard_pagina');
-        res.status(200).send(result.recordset);
-    }catch(err){
-        res.status(500).json({error: err.message});
-    }
-});
-
 router.get('/country', async function(req, res){
     try{
         let pool = await sql.connect(sqlConfig);
         let request = pool.request();
         let result = await request.execute('PROC_Consultar_Miembros_Pais');
-        res.status(200).send(result.recordset);
+        const table = result.recordset;
+        res.status(200).send({ table });
+        console.log('Countries successfully sent')
     }catch(err){
         res.status(500).json({error: err.message});
+    }
+});
+
+router.get('/comments', async function(req, res){
+    try{
+        let pool = await sql.connect(sqlConfig);
+        let request = pool.request();
+        let result = await request.execute('PROC_Obtener_Comentario');
+        const table = result.recordset;
+        console.log('Comments retrieved');
+        res.status(200).send({ table });
+    }catch(err){
+        res.status(500).json({error: err.message});
+        console.log(err.message);
     }
 });
 
@@ -43,9 +47,29 @@ router.get('/progress', async function(req, res){
         let pool = await sql.connect(sqlConfig);
         let request = pool.request();
         let result = await request.execute('PROC_Consultar_Progreso_Global');
-        res.status(200).send(result.recordset);
+        console.log(result.recordset[0]['Cantidad']);
+        const table = result.recordset;
+        res.status(200).send({ table });
+        console.log('Progreso enviado');
     }catch(err){
         res.status(500).json({error: err.message});
     }
 });
+
+router.get('/:page', async function(req, res){
+    try{
+        let pool = await sql.connect(sqlConfig);
+        let request = pool.request();
+        request.input('PageNumber', req.params.page);
+        let result = await request.execute('PROC_Leaderboard_pagina');
+        const table = result.recordset;
+        res.status(200).send({ table });
+        console.log(`Pagina ${req.params.page} enviada`);
+    }catch(err){
+        res.status(500).json({error: err.message});
+    }
+});
+
+
+
 module.exports = router

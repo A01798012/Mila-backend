@@ -18,6 +18,7 @@ router.post('/', async function (req, res) {
     const tutor = {
         nombreTutor: req.body.nombreTutor,
         primerApellido: req.body.primerApellido,
+        segundoApellido: req.body.segundoApellido,
         email: req.body.email,
         password: req.body.password,
         telefono: req.body.telefono,
@@ -29,6 +30,7 @@ router.post('/', async function (req, res) {
     //    request.input(tutor.nombreTutor, tutor.primerApellido, tutor.email, tutor.password, tutor.telefono, tutor.codTel);
         request.input('NombreTutor', tutor.nombreTutor);
         request.input('PrimerApellido', tutor.primerApellido);
+        request.input('SegundoApellido', tutor.segundoApellido);
         request.input('Email', tutor.email);
         request.input('Password', tutor.password);
         request.input('Telefono', sql.Int, tutor.telefono);
@@ -67,7 +69,8 @@ router.post('/login', async function (req, res){
         request.input('Email', tutor.email );
         request.input('Password', tutor.password);
         let result =  await request.execute('PROC_Login_Tutor'); //TODO:
-        res.send(result);
+        console.log(result);
+        res.status(200).send(result);
     }catch(err){
         if(err instanceof sql.RequestError){
             console.log('Request Error', err.message);

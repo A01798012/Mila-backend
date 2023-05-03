@@ -19,6 +19,7 @@ router.post('/', async function(req, res){
     const user = {
         nombreUsuario: req.body.nombreUsuario,
         primerApellido: req.body.primerApellido,
+        segundoApellido: req.body.segundoApellido,
         gamertag: req.body.gamertag,
         password: req.body.password,
         fecha: req.body.fecha,
@@ -29,17 +30,19 @@ router.post('/', async function(req, res){
         let request = pool.request();
         request.input('NombreUsuario', user.nombreUsuario);
         request.input('PrimerApellido', user.primerApellido);
+        request.input('SegundoApellido', user.segundoApellido);
         request.input('GamerTag', user.gamertag);
         request.input('Password', user.password);
         request.input('Fecha', user.fecha);
         request.input('EmailTutor', user.emailTutor);
         let result = await request.execute('PROC_Insertar_Usuario');
         res.status(201).send(result);
-        console.log('Success')
+        console.log(`\x1b[32m${user.gamertag} added correctly to the database\x1b[0m`);
     }catch(err){
         if(err instanceof sql.RequestError){
             console.log('Request Error:', err.message);
-            res.status(500).json({error: "Usuario ya registrado"});
+            res.status(500).json({error: `El gamertag \"${user.gamertag}\" ya esta ocupado`});
+            //console.log('\x1b[33m Welcome to the app! \x1b[0m');
         }else{
             console.log('Unknown error', err.message);
             res.status(500).json({error: "No se puede registrar al usuario en estos momentos"});
@@ -58,6 +61,7 @@ router.post('/comments', async function (req, res){
         request.input('GamerTag', comment.gamertag);
         request.input('Comentario', comment.comentario);
         let result = await request.execute('PROC_Insertar_Comentario');
+        console.log(`\x1b[35m${comment.gamertag} agrego el comentario: ${comment.comentario}\x1b[0m`);
         res.status(201).send(result);
     }catch(err){
         console.log('Error', err.message);
@@ -104,6 +108,7 @@ router.post('/scores', async function(req, res){
         request.input('GamerTag', user.gamertag);
         request.input('Puntaje', user.score);
         let result = await request.execute('PROC_Insertar_Puntaje');
+        console.log('Score successfully registered')
         res.status(201).send(result);
     }catch(err){
         console.log(err.message);
@@ -111,6 +116,7 @@ router.post('/scores', async function(req, res){
     }
 
 });
+
 //alter gamertag
 router.put('/gamertags', async function(req, res){
     const gamertag = {
@@ -123,7 +129,8 @@ router.put('/gamertags', async function(req, res){
         request.input('PrevGametag', gamertag.prevGamertag);
         request.input('Gametag', gamertag.gamertag);
         let result = await request.execute('PROC_Actualizar_Gametag');
-        res.send(result);
+        console.log('Gamertag altered correctly');
+        res.status(200).send(result);
     }catch(err){
         if(err instanceof sql.RequestError){
             console.log('Request Error', err.message);
@@ -148,10 +155,10 @@ router.put('/passwords', async function(req, res){
         request.input('GamerTag', user.gamertag);
         request.input('Password', user.previousPassword);
         request.input('nuevaPassword', user.newPassword);
-        request.input('Succes', 1);
 
         let result = await request.execute('PROC_CambiarPass_Usuario');
-        res.send(result);
+        console.log('Password altered correctly');
+        res.status(200).send(result);
     }catch(err){
         if(err instanceof sql.RequestError){
             console.log('Request Error', err.message);
@@ -165,20 +172,6 @@ router.put('/passwords', async function(req, res){
 });
 //Partida
 
-//TODO: retrieve all scores from all users
-router.get('/scores', async function(req, res){
-    try{
-        let pool = await sql.connect(sqlConfig);
-        let request = pool.request();
-        let result = await request.execute('PROC_Obtener_Scores')
-        res.status(200).send(result.recordset);
-        console.log(result.recordset);
-    }catch(err){
-        res.status(500).json(err.message);
-        console.log('error');
-
-    }
-});
 //TODO: retrieve score from certain user
 router.get('/scores/:gamertag', async function(req, res){
     try{
@@ -186,25 +179,28 @@ router.get('/scores/:gamertag', async function(req, res){
         let request = pool.request();
         request.input('Gamertag', req.params.gamertag);
         let result = await request.execute('PROC_Obtener_Scores_Usuario')
-        res.status(200).send(result.recordset);
+        const table = result.recordset;
+        res.status(200).send({ table });
         console.log(result.recordset);
     }catch(err){
         res.status(500).json({error: "error"});
     }
 });
-//TODO: retrive progress from all users
-router.get('/progress', async function(req, res){
+
+router.get('/partidas/:gamertag', async function(req, res){
     try{
         let pool = await sql.connect(sqlConfig);
         let request = pool.request();
-        let result = await request.execute('PROC_Consultar_Progreso_Global');
-        res.status(200).send(result.recordset);
-        console.log(result.recordset);
-    }catch(err){
-        res.status(500).json({error:"error"});
+        request.input('Gamertag', req.params.gamertag);
+        let result = await request.execute('PROC_Partidas_Jugadas');
+        const table = result.recordset;
+        res.status(200).send({ table });
+        console.log('Partidas enviadas correctamente');
+    } catch(err){
+        console.log('Error', err.message);
+        res.status(500).send({error: err.message});
     }
 });
-
 module.exports = router;
 
 
