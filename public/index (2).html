@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <title>GAME CRACK THE CODE</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    </head>
+    <style>
+    body, h1, h2, h3, h4, h5, h6{
+      font-family: Helvetica, Arial, sans-serif;
+    }
+    </style>
+      <body  class="w3-container w3-white">
+        <br>
+
+        <div class="w3-container w3-bar">
+          <img src="crack-the-code.jpg" href="#" style="width:20%" class="w3-bar-item w3-right"></img>
+        </div>
+        <br>
+        <p><span class="w3-tag w3-yellow w3-xlarge" id= "tagGamerTag">
+          <span id ="gamer-Tag"></span><i class="w3-margin-left material-icons">person</i></span></p>
+
+        <div id = "opciones" class="w3-bar w3-large w3-mobile">
+          <a href="#" onclick = "cargarInicio();" class="w3-bar-item w3-button w3-mobile w3-red">Inicio</a>
+          <a href="http://54.147.131.31:8080/juego.html" class="w3-bar-item w3-button w3-mobile w3-green" style="font-size:9px">Videojuego <br><span style='font-size: 7px'>(Arte por: Alex Morales S.)</span></a>
+          <a href="#" onclick = "cargarScoreboard();" class="w3-bar-item w3-button w3-mobile w3-pink">Leaderboard</a>
+          <a href="#" onclick = "cargarProgreso();" class="w3-bar-item w3-button w3-mobile w3-blue">Progreso</a>
+          <a href="#" onclick = "cargarComentarios();" class="w3-bar-item w3-button w3-mobile w3-purple">Comentarios</a>
+        </div>
+        <br>
+
+
+
+        <div id = "conIndex" class= "w3-container">
+          <div class="w3-bar w3-red">
+          <h2 class="w3-text-white w3-center"><b>Bienvenid@</b></h2>
+          </div>
+          <br>
+          <div class="w3-container w3-third"></div>
+
+
+          <div class="w3-container w3-bar w3-hide-small">
+            <img src="Curso.png" href="#" style="width: 60%; height: auto;" class="w3-bar-item w3-center"></img>
+          </div>
+<!-- -->
+
+          <div class="w3-container w3-third w3-round w3-center w3-lime w3-mobile">
+            <br>
+            <h5 class="w3-text-black"><b>¿Quieres cambiar tu GamerTag? </b></h5>
+                <div class="w3-third">
+                <input id= "PrevGamertag" class="w3-input w3-border" type="text" placeholder="Gamertag anterior">
+                </div>
+            <div class = "w3-container w3-third"></div>
+            <div class="w3-third">
+            <input id= "NewGamertag" class="w3-input w3-border" type="text" placeholder="Nuevo Gamertag">
+            </div>
+            <br>
+            <button type='button' onclick="updateGamertag()"; class="w3-btn w3-black w3-center">Envía</button></p><br>
+          </div>
+          
+          <div class="w3-container w3-third"></div>
+
+          <div class="w3-container w3-third w3-round w3-center w3-lime w3-mobile">
+            <br>
+            <h5 class="w3-text-black"><b>¿Quieres cambiar tu Password? </b></h5>
+                
+            <div class = "w3-third"></div>
+              <div class="w3-third">
+              <input id= "PrevPass" class="w3-input w3-border" type="text" placeholder="Password anterior">
+              </div>
+            <div class = "w3-container w3-third"></div>
+              <div class="w3-third">
+              <input id= "NewPass" class="w3-input w3-border" type="text" placeholder="Nuevo Password">
+              </div>
+            <br>
+            
+            <button type='button' onclick="updatePassword();" class="w3-btn w3-black w3-center">Envía</button></p><br>
+          </div>
+
+          <div class="w3-container w3-third"></div>
+          
+
+          <div class="w3-container w3-third w3-round w3-center w3-blue w3-mobile">
+            <br>
+            <h5 class="w3-text-black"><b>Del 1 al 10, ¿Cuánto le das al juego? </b></h5>
+            <div class="w3-row-padding">
+              <input id= "calificacionNueva" class="w3-input w3-border" type="number" placeholder="Calificación">
+              <br>
+              <button type='button' onclick="saveCalificacion();" class="w3-btn w3-black">Envía</button></p><br>
+            </div>
+          </div>
+       </div>
+
+       <div id = "conScoreboard" class= "w3-container" style ="display:none">
+        <div class="w3-bar w3-pink">
+          <h2 class="w3-text-white w3-center"><b>LEADERBOARD</b></h2>
+        </div>
+        <br>
+        <div class="container">
+          <table class="table w3-center" id="tablaLeaderboard">
+            <thead>
+              <th scope="col">Place</th>
+              <th scope="col">GamerTag</th>
+              <th scope="col">Progreso</th>
+              <th scope="col">Puntaje</th>
+              <th scope="col">Fecha</th>
+            </thead>
+            <tbody></tbody>
+          </table>
+          
+          <br>
+          <div >
+            <canvas id="leaderboard"></canvas>
+          </div>
+          <br>
+          <div class ="w3-third"></div>
+          <div class ="w3-center w3-half" style="position: relative; height:80vh; width:160vh; margin: auto;">
+            <canvas id="usuariosPorPais"></canvas>
+          </div>
+          <div class ="w3-third"></div>
+
+          <br>
+          <div class ="w3-third"></div>
+          <div class ="w3-center w3-half" style="position: relative; height:80vh; width:160vh;  margin: auto;">
+            <canvas id="usuariosProgreso"></canvas>
+          </div>
+          <br>
+        </div>
+      </div>
+
+
+      <div  id = "conProgreso" class= "w3-container" style ="display:none">
+        <div class="w3-bar w3-blue">
+          <h2 class="w3-text-white w3-center"><b>TU PROGRESO</b></h2>
+        </div>
+        <br>
+        <div class=" w3-container w3-third">
+          <div class="w3-card w3-blue">
+            <p class="w3-center" style="font-size: 30px;">&#128285; Máximo puntaje</p>
+            <p class="w3-center" style="font-size: 30px;"id="puntajeMax">-</p>
+          </div>
+        </div>
+
+        <div class=" w3-container w3-third">
+          <div class="w3-card w3-indigo">
+            <p class="w3-center" style="font-size: 30px;">&#128272; Nivel desbloqueado</p>
+            <p class="w3-center" style="font-size: 30px;"id="nivelMax">-</p>
+          </div>
+        </div>
+
+        <div class=" w3-container w3-third">
+          <div class="w3-card w3-red">
+            <p class="w3-center" style="font-size: 30px;">&#127918; Partidas jugadas</p>
+            <p class="w3-center" style="font-size: 30px;"id="partidas">-</p>
+          </div>
+        </div>
+        <br>
+        <div >
+          <canvas id="scoreUsuario"></canvas>
+        </div>
+      </div>
+
+      <div id = "conComentarios" class= "w3-container" style ="display:none">
+        <div class="w3-bar w3-purple">
+          <h2 class="w3-text-white w3-center"><b>COMENTARIOS</b></h2>
+        </div>
+        <br>
+        <div class=" w3-container w3-third">
+          <div class="w3-card w3-pink">
+            <p class="w3-center" style="font-size: 40px;">&#128513;</p>
+            <p class="w3-center" id="comentario1">COMENTARIO1</p>
+
+          </div>
+        </div>
+        <div class=" w3-container w3-third">
+          <div class="w3-card w3-blue">
+            <p class="w3-center" style="font-size: 40px;">&#127942;</p>
+            <p class="w3-center" id="comentario2">COMENTARIO2</p>
+          </div>
+        </div>
+        <div class=" w3-container w3-third">
+          <div class="w3-card w3-green">
+            <p class="w3-center" style="font-size: 40px;">&#128561;</p>
+            <p class="w3-center" id="comentario3">COMENTARIO3</p>
+          </div>
+        </div>
+        <br>
+        
+        <br>
+        <div class=" w3-container w3-quarter"></div>
+        <div class="w3-container w3-half w3-round w3-center w3-yellow">
+          <br>
+          <h3 class="w3-text-black"><b>¡Deja tu comentario!</b></h3>
+          <div class="w3-row-padding">
+            <input id= "comentarioNuevo" class="w3-input w3-border" type="text" placeholder="Escribe un comentario">
+            <br>
+            <button  type='button' onclick="saveComment();" class="w3-btn w3-black">¡ENVÍA!</button></p><br>
+          </div>
+          </div>
+
+      </div>
+      
+      <script src="javascript/calificacion.js"></script>
+      <script src="javascript/cambiarGamertag.js"></script>
+      <script src="javascript/cambiarPassword.js"></script>
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+      <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+          
+      <script src="javascript/comentarios.js" defer></script>
+      <script src="javascript/progreso.js" defer></script>
+      <script src="javascript/menu.js" defer></script>
+      <script src="javascript/graficas.js" defer></script>
+    </body>
+</html>

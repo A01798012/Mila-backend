@@ -5,6 +5,7 @@
         <title> Scoreboard</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
     </head>
     <style>
     body, h1, h2, h3, h4, h5, h6{
@@ -18,37 +19,83 @@
           <img src="crack-the-code.jpg" href="#" style="width:25%" class="w3-button w3-bar-item w3-right"></img>
         </div>
         <br>
-        <div class="w3-bar w3-indigo">
-          <h2 class="w3-text-white w3-center"><b>SCOREBOARD</b></h2>
+        <div class="w3-bar w3-deep-orange">
+          <h2 class="w3-text-white w3-center"><b>COMENTARIOS</b></h2>
         </div>
         <br>
-        <div class="w3-responsive">
-          <table class="w3-table-all w3-centered">
-            <thead>
-              <tr class ="w3-red">
-                <th>GamerTag</th>
-                <th>Puntaje</th>
-              </tr>
-            <thead>
-            <tbody>
-              <tr>
-                <td >-</td>
-                <td>-</td>
-              </tr>
-                 <tr>
-                <td>-</td>
-                <td>-</td>
-              </tr>
-                 <tr>
-                <td>-</td>
-                <td>-</td>
-              </tr>
-            </tbody>
-          <table/>
 
+        <div class=" w3-container w3-third">
+          <div class="w3-card w3-pink">
+            <p class="w3-center" style="font-size: 40px;">&#128513;</p>
+            <p class="w3-center" id="comentario1">COMENTARIO1</p>
+          
+          </div>
+          
         </div>
+        <div class=" w3-container w3-third">
+          <div class="w3-card w3-blue">
+            <p class="w3-center" style="font-size: 40px;">&#127942;</p>
+            <p class="w3-center" id="comentario2">COMENTARIO2</p>
+            
+            <!--<script>
+              const http = new XMLHttpRequest();
+              const url = "http://54.147.131.31:8080/api/users/comments";
+              http.onload = function() {
+                const result = JSON.parse(http.responseText);
+                console.log(result);
+              };
+              htpp.open('GET', "http://54.147.131.31:8080/api/users/comments");
+              http.send();
+            </script>-->
+              
+          </div>
+        </div>
+        
+        <div class=" w3-container w3-third">
+          <div class="w3-card w3-green">
+            <p class="w3-center" style="font-size: 40px;">&#128561;</p>
+            <p class="w3-center" id="comentario3">COMENTARIO3</p>
+            
+            
+      
+          </div>
+        </div>
+        <br>
+        <div class=" w3-container w3-third">
+          <div class="w3-card w3-indigo">
+            <p class="w3-center" style="font-size: 40px;">&#128377;</p>
+            <p class="w3-center" id="comentario4">COMENTARIO4</p>
+            
+            
+            
+          </div>
+        </div>
+         <div class=" w3-container w3-third"></div>
+        <div class=" w3-container w3-third">
+          <div class="w3-card w3-red">
+            <p class="w3-center" style="font-size: 40px;">&#128561;</p>
+            <p class="w3-center" id="comentario5">COMENTARIO5</p>
+            
+            
+            
+          </div>
+        </div>
+        
 
+        <br></br>
+        <div class=" w3-container w3-quarter"></div>
+        <div class="w3-container w3-half w3-round w3-center w3-yellow">
+          <h3 class="w3-text-black"><b>¡Deja tu comentario!</b></h3>
+          <div class="w3-row-padding">
+             <input id= "comentarioNuevo" class="w3-input w3-border" type="text" placeholder="Escribe un comentario">
+             <input id= "gamertag" class="w3-input w3-border" type="text" placeholder="Gamertag">
+          <br>
+              <button onclick="saveComment();" class="w3-btn w3-teal">ENVIAR</button>
+          </div>
+        </div>
+        
+        <script src="javascript/comentarios.js"></script>
 
-
+        
     </body>
 </html>

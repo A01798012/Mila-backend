@@ -23,29 +23,47 @@
 
         <div class = "w3-mobile w3-content w3-center w3-light-gray">
             <div class = "w3-card-4">
-                <form id="loginForm" class="w3-container w3-card-4">
+                <form class="w3-container w3-card-4" id ="form">
                     <p>
                     <h2 class="w3-text-indigo"><b>Acceder</b></h2>
                     <h6 class="w3-text"><b>Usa tu cuenta para ingresar</b></h6>
                     <p class="w3-text-gray"  style="font-size:12px;">
                         <b>Si no tienes cuenta,
-                         <!--poner lfink en registrar-->
-                        <a href="registrar.html"><u>registrate aquí</u></a></b>
+                         <!--poner link en registrar-->
+                        <a href="#" onclick = "cargarRegistrar();"><u>registrate aquí</u></a></b>
                     </p>
                     <br>
 
-                    <label>Usuario</label>
-                    <input id="Usuario" class="w3-input" type="text" required autofocus></p>
-                    <label>Contraseña</label>
-                    <input  id="Contraseña" class="w3-input" type="password" required></p><br>
+                    <label>Gamertag del Usuario</label>
+                    <input id="gamertag" class="w3-input" type="text"></p>
+                    <label>Password</label>
+                    <input  id="password" class="w3-input" type="password"></p>
                      <!--poner link en onclick-->
-                    <button onclick = "#" class="w3-btn w3-green w3-round">INGRESAR</button></p><br>
+                    <button type = "button" onclick="return loginUser();" class="w3-btn w3-green w3-round">INGRESAR</button>
 
                 </form>
 
             </div>
         </div>
         <br>
-        <<script src="javascript/inicio.js"></script>
+        <!--<script>
+            function cargarRegistrar(){
+            window.location.assign("registrar.html")
+            };
+
+            function cargarIndex(){
+                const form = document.getElementById('form');
+                const gamertag = document.getElementById('gamertag');
+
+                form.addEventListener('click', function(e){
+                    e.preventDefault();
+                    const valueGamerTag = gamertag.value;
+                    sessionStorage.setItem('gamer-Tag-Value', valueGamerTag);
+                    window.location.href = "index(2).html";
+                });
+            };
+
+        </script>-->
+        <script src="javascript/inicio.js"></script>
     </body>
 </html>

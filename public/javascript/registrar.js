@@ -6,7 +6,8 @@ function saveDataUser() {
   console.log(codTel.value);
     const payLoad = JSON.stringify({
       nombreUsuario: nombreUsuario.value,
-      primerApellido: apellidoUs.value,
+      primerApellido: primerApellidoUs.value,
+      segundoApellido: segundoApellidoUs.value,
       gamertag: GamerTag.value,
       password: passUs.value,
       fecha: fecha,
@@ -15,9 +16,16 @@ function saveDataUser() {
     
     const xhr = new XMLHttpRequest();
     xhr.onload = () => {
-      //result.innerText = xhr.responseText;
-      //main.style.display = 'none';
-      //endMessage.style.display = 'block';
+      /*const result = JSON.parse(xhr.responseText);
+      console.log(result);
+      const check = result['valid'];
+      if (check == 1){
+        alert('Se registro el usuario');
+        cargarIndex();
+      } else {
+        alert('No se puede registrar el usuario en estos momentos');
+      }*/
+      //window.location.href = "inicio.html";
     };
     xhr.open('POST', 'http://54.147.131.31:8080/api/users');
     xhr.setRequestHeader('Content-Type', 'application/json');
@@ -27,7 +35,8 @@ function saveDataUser() {
 function saveDataTutor() {
   const payLoad = JSON.stringify({
     nombreTutor: nombreTutor.value,
-    primerApellido: apellidoTu.value,
+    primerApellido: primerApellidoTu.value,
+    segundoApellido: segundoApellidoTu.value,
     email: email.value,
     password: passTu.value,
     telefono: telefono.value,
@@ -36,12 +45,16 @@ function saveDataTutor() {
   const xhr = new XMLHttpRequest();
   xhr.onload = () => {
     saveDataUser();
-    //result.innerText = xhr.responseText;
-   // main.style.display = 'none';
-   // endMessage.style.display = 'block';
+    //window.location.href = "inicio.html";
+
+ 
   };
   xhr.open('POST', 'http://54.147.131.31:8080/api/tutors');
   xhr.setRequestHeader('Content-Type', 'application/json');
   xhr.send(payLoad);
   //callback();
+}
+
+function cargarInicio(){
+  window.location.href = "inicio.html";
 }
