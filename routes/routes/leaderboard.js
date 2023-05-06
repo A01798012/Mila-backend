@@ -21,7 +21,9 @@ router.get('/country', async function(req, res){
         let result = await request.execute('PROC_Consultar_Miembros_Pais');
         const table = result.recordset;
         res.status(200).send({ table });
-        console.log('Countries successfully sent')
+        console.log('\x1b[32mCountries successfully sent\x1b[0m');
+        //console.log(`\x1b[32m${user.gamertag} added correctly to the database\x1b[0m`);
+
     }catch(err){
         res.status(500).json({error: err.message});
     }
@@ -33,7 +35,7 @@ router.get('/comments', async function(req, res){
         let request = pool.request();
         let result = await request.execute('PROC_Obtener_Comentario');
         const table = result.recordset;
-        console.log('Comments retrieved');
+        console.log('\x1b[32mComments retrieved\x1b[0m');
         res.status(200).send({ table });
     }catch(err){
         res.status(500).json({error: err.message});
@@ -47,10 +49,9 @@ router.get('/progress', async function(req, res){
         let pool = await sql.connect(sqlConfig);
         let request = pool.request();
         let result = await request.execute('PROC_Consultar_Progreso_Global');
-        console.log(result.recordset[0]['Cantidad']);
         const table = result.recordset;
         res.status(200).send({ table });
-        console.log('Progreso enviado');
+        console.log('\x1b[32mProgreso enviado\x1b[0m');
     }catch(err){
         res.status(500).json({error: err.message});
     }
@@ -64,7 +65,9 @@ router.get('/:page', async function(req, res){
         let result = await request.execute('PROC_Leaderboard_pagina');
         const table = result.recordset;
         res.status(200).send({ table });
-        console.log(`Pagina ${req.params.page} enviada`);
+        //console.log(table);
+        console.log(`\x1b[32mSuccessfuly sent page ${req.params.page}\x1b[0m`)
+
     }catch(err){
         res.status(500).json({error: err.message});
     }

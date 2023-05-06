@@ -33,8 +33,8 @@ router.post('/', async function (req, res) {
         request.input('SegundoApellido', tutor.segundoApellido);
         request.input('Email', tutor.email);
         request.input('Password', tutor.password);
-        request.input('Telefono', sql.Int, tutor.telefono);
-        request.input('CodTel', sql.Int , tutor.codTel);
+        request.input('Telefono', tutor.telefono);
+        request.input('CodTel', tutor.codTel);
         let result = await request.execute('PROC_Insertar_Tutor');
         res.status(201).send(result);
         console.log('Success')
@@ -70,7 +70,7 @@ router.post('/login', async function (req, res){
         request.input('Password', tutor.password);
         let result =  await request.execute('PROC_Login_Tutor'); //TODO:
         console.log(result);
-        res.status(200).send(result);
+        res.status(200).json({valid: result.returnValue} );
     }catch(err){
         if(err instanceof sql.RequestError){
             console.log('Request Error', err.message);
