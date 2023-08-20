@@ -18,6 +18,8 @@ The videogame was programmed in Unity(C#) and then converted into JavaScript wit
 The videogame was about a dog that had to defend herself from aliens. Throught the game, the player colletcts items dropped by the
 aliens and in some level we teach the children what [Caesar cipher](https://en.wikipedia.org/wiki/Caesar_cipher) is.
 Also, we start to teach what binary search is.
+
+![game](/game.jpeg) ![game2](/game1.jpeg)
 # API
 We designed a RESTful API, it was coded in JS with /express/ and /mssql/.
 The API was used in both the game and the web page.
@@ -34,6 +36,6 @@ Web Page:
 It was a SQL Server DB, with stored procedures, triggers, etc...
 # WebPage
 The WebPage was made with JS and HTML, it connected to the API. 
-
+![lb](/lb.jpeg) ![stats](/stats.jpeg) ![stat2](/stats2.jpeg)
 # Where was everything hosted?
 The web page, videogame, API and database where deployed in AWS.
