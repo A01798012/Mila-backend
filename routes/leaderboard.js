@@ -13,7 +13,7 @@ const sqlConfig = {
         trustServerCertificate: true
     }
 };
-
+// Recover statistics of countries to display in graphs.
 router.get('/country', async function(req, res){
     try{
         let pool = await sql.connect(sqlConfig);
@@ -28,7 +28,7 @@ router.get('/country', async function(req, res){
         res.status(500).json({error: err.message});
     }
 });
-
+// Recover last five comments made by users.
 router.get('/comments', async function(req, res){
     try{
         let pool = await sql.connect(sqlConfig);
@@ -43,7 +43,7 @@ router.get('/comments', async function(req, res){
     }
 });
 
-
+// Get the %progress of every user.
 router.get('/progress', async function(req, res){
     try{
         let pool = await sql.connect(sqlConfig);
@@ -56,7 +56,7 @@ router.get('/progress', async function(req, res){
         res.status(500).json({error: err.message});
     }
 });
-
+// Get the leaderboard to display it on the webpage
 router.get('/:page', async function(req, res){
     try{
         let pool = await sql.connect(sqlConfig);
